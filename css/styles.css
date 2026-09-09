@@ -1,0 +1,192 @@
+/* ---------------------------------------------------------------------------
+   styles.css — layout and components for this site.
+   Only tokens from tokens.css may appear as values here. If a Figma sketch
+   needs a value that has no token, add the token first.
+   --------------------------------------------------------------------------- */
+
+/* --- Layout primitives --------------------------------------------------- */
+
+.page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.container {
+  width: 100%;
+  max-width: var(--page-max-width);
+  margin-inline: auto;
+  padding-inline: var(--page-gutter);
+}
+
+.stack > * + * {
+  margin-block-start: var(--space-200);
+}
+
+.section {
+  padding-block: var(--space-800);
+}
+
+.section--subtle {
+  background: var(--color-bg-subtle);
+}
+
+/* --- Site header --------------------------------------------------------- */
+
+.site-header {
+  border-block-end: var(--border-width) solid var(--color-border);
+  background: var(--color-surface);
+}
+
+.site-header__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-300);
+  min-height: var(--space-800);
+}
+
+.site-header__logo {
+  font-size: var(--font-size-300);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-fg);
+  text-decoration: none;
+}
+
+.site-nav {
+  display: flex;
+  align-items: center;
+  gap: var(--space-300);
+}
+
+.site-nav a {
+  color: var(--color-fg-muted);
+  text-decoration: none;
+  font-size: var(--font-size-200);
+}
+
+.site-nav a:hover,
+.site-nav a[aria-current="page"] {
+  color: var(--color-fg);
+}
+
+/* --- Main ---------------------------------------------------------------- */
+
+.site-main {
+  flex: 1;
+}
+
+.hero {
+  padding-block: var(--space-800);
+}
+
+.hero__lead {
+  max-width: 60ch;
+  margin-block-start: var(--space-200);
+  font-size: var(--font-size-300);
+  color: var(--color-fg-muted);
+}
+
+.hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-150);
+  margin-block-start: var(--space-400);
+}
+
+/* --- Button -------------------------------------------------------------- */
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-100);
+  padding: var(--space-150) var(--space-300);
+  border: var(--border-width) solid transparent;
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-200);
+  font-weight: var(--font-weight-medium);
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 120ms ease, border-color 120ms ease;
+}
+
+.button--primary {
+  background: var(--color-accent);
+  color: var(--color-fg-inverse);
+}
+
+.button--primary:hover {
+  background: var(--color-accent-hover);
+  color: var(--color-fg-inverse);
+}
+
+.button--secondary {
+  background: var(--color-surface);
+  border-color: var(--color-border);
+  color: var(--color-fg);
+}
+
+.button--secondary:hover {
+  background: var(--color-bg-subtle);
+  color: var(--color-fg);
+}
+
+/* --- Card ---------------------------------------------------------------- */
+
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+  gap: var(--space-300);
+}
+
+.card {
+  padding: var(--space-300);
+  background: var(--color-surface);
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-100);
+}
+
+.card__title {
+  font-size: var(--font-size-300);
+}
+
+.card__body {
+  margin-block-start: var(--space-100);
+  color: var(--color-fg-muted);
+}
+
+/* --- Site footer --------------------------------------------------------- */
+
+.site-footer {
+  padding-block: var(--space-400);
+  border-block-start: var(--border-width) solid var(--color-border);
+  color: var(--color-fg-muted);
+  font-size: var(--font-size-100);
+}
+
+/* --- Skip link ----------------------------------------------------------- */
+
+.skip-link {
+  position: absolute;
+  inset-inline-start: var(--space-200);
+  inset-block-start: var(--space-200);
+  z-index: 10;
+  padding: var(--space-100) var(--space-200);
+  background: var(--color-surface);
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--radius-sm);
+  color: var(--color-fg);
+  text-decoration: none;
+  transform: translateY(calc(-1 * var(--space-800)));
+}
+
+.skip-link:focus-visible {
+  transform: none;
+}
+
+/* Body of a section, separated from its heading. */
+.section__body {
+  margin-block-start: var(--space-400);
+}

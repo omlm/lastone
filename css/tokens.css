@@ -1,0 +1,88 @@
+/* ---------------------------------------------------------------------------
+   tokens.css — the single source of truth for values that come from Figma.
+   Every colour, size, radius and font in this site should resolve to a token
+   declared here. If a value is not in this file, it does not belong in a rule.
+   Keep the names aligned with the Figma variable names so drift is visible.
+   --------------------------------------------------------------------------- */
+
+:root {
+  color-scheme: light;
+
+  /* --- Colour ------------------------------------------------------------ */
+  --color-bg: #ffffff;
+  --color-bg-subtle: #f6f7f8;
+  --color-surface: #ffffff;
+  --color-border: #e3e6e9;
+
+  --color-fg: #14171a;
+  --color-fg-muted: #5b6570;
+  --color-fg-inverse: #ffffff;
+
+  --color-accent: #1a56db;
+  --color-accent-hover: #1746b0;
+  --color-focus: #1a56db;
+
+  /* --- Typography -------------------------------------------------------- */
+  --font-sans: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial,
+    sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+
+  --font-size-100: 0.8125rem; /* 13px */
+  --font-size-200: 0.9375rem; /* 15px */
+  --font-size-300: 1.0625rem; /* 17px */
+  --font-size-400: 1.375rem; /*  22px */
+  --font-size-500: 1.875rem; /*  30px */
+  --font-size-600: 2.5rem; /*    40px */
+
+  --line-height-tight: 1.2;
+  --line-height-normal: 1.5;
+
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-bold: 700;
+
+  /* --- Space ------------------------------------------------------------- */
+  --space-050: 0.25rem; /*  4px */
+  --space-100: 0.5rem; /*   8px */
+  --space-150: 0.75rem; /* 12px */
+  --space-200: 1rem; /*    16px */
+  --space-300: 1.5rem; /*  24px */
+  --space-400: 2rem; /*    32px */
+  --space-600: 3rem; /*    48px */
+  --space-800: 4rem; /*    64px */
+
+  /* --- Shape ------------------------------------------------------------- */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 16px;
+  --radius-full: 9999px;
+
+  --border-width: 1px;
+
+  /* --- Elevation --------------------------------------------------------- */
+  --shadow-100: 0 1px 2px rgb(20 23 26 / 0.06);
+  --shadow-200: 0 4px 12px rgb(20 23 26 / 0.08);
+
+  /* --- Layout ------------------------------------------------------------ */
+  --page-max-width: 1200px;
+  --page-gutter: var(--space-300);
+}
+
+/* Dark values live in one place too. Delete this block if the Figma file has
+   no dark variant. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+
+    --color-bg: #101215;
+    --color-bg-subtle: #171a1e;
+    --color-surface: #1b1f24;
+    --color-border: #2b3239;
+    --color-fg: #f2f4f6;
+    --color-fg-muted: #a3adb8;
+    --color-fg-inverse: #14171a;
+    --color-accent: #6aa0ff;
+    --color-accent-hover: #8ab6ff;
+    --color-focus: #6aa0ff;
+  }
+}

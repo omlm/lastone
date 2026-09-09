@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="no">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>lastone</title>
+    <meta name="description" content="" />
+
+    <link rel="stylesheet" href="css/tokens.css" />
+    <link rel="stylesheet" href="css/base.css" />
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+  <body>
+    <div class="page">
+      <a class="skip-link" href="#main">Hopp til innhold</a>
+
+      <header class="site-header">
+        <div class="container site-header__inner">
+          <a class="site-header__logo" href="/">lastone</a>
+          <nav class="site-nav" aria-label="Hovedmeny">
+            <a href="#main" aria-current="page">Start</a>
+            <a href="#seksjon">Seksjon</a>
+          </nav>
+        </div>
+      </header>
+
+      <main class="site-main" id="main">
+        <!-- Replace everything below with the sections from the Figma sketch.
+             One <section> per Figma frame, each with an accessible name. -->
+        <section class="hero" aria-labelledby="hero-title">
+          <div class="container">
+            <h1 id="hero-title">Startpunkt</h1>
+            <p class="hero__lead">
+              Dette er skjelettet. Bytt ut innholdet etter hvert som
+              Figma-skissene bygges ut — tokens først, deretter markup.
+            </p>
+            <div class="hero__actions">
+              <a class="button button--primary" href="#seksjon">Primær</a>
+              <a class="button button--secondary" href="#seksjon">Sekundær</a>
+            </div>
+          </div>
+        </section>
+
+        <section class="section section--subtle" aria-labelledby="seksjon-title" id="seksjon">
+          <div class="container">
+            <h2 id="seksjon-title">Seksjon</h2>
+            <div class="card-grid section__body">
+              <article class="card">
+                <h3 class="card__title">Kort</h3>
+                <p class="card__body">
+                  Et kort som viser hvordan flate, kant og radius henger sammen.
+                </p>
+              </article>
+              <article class="card">
+                <h3 class="card__title">Kort</h3>
+                <p class="card__body">
+                  Rutenettet brytes av seg selv når det blir for smalt.
+                </p>
+              </article>
+              <article class="card">
+                <h3 class="card__title">Kort</h3>
+                <p class="card__body">
+                  Alle verdier kommer fra <code>css/tokens.css</code>.
+                </p>
+              </article>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <footer class="site-footer">
+        <div class="container">
+          <p>© 2026 lastone</p>
+        </div>
+      </footer>
+    </div>
+  </body>
+</html>
