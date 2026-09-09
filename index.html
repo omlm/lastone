@@ -10,69 +10,126 @@
     <link rel="stylesheet" href="css/base.css" />
     <link rel="stylesheet" href="css/styles.css" />
   </head>
-  <body>
-    <div class="page">
-      <a class="skip-link" href="#main">Hopp til innhold</a>
 
-      <header class="site-header">
-        <div class="container site-header__inner">
-          <a class="site-header__logo" href="/">lastone</a>
-          <nav class="site-nav" aria-label="Hovedmeny">
-            <a href="#main" aria-current="page">Start</a>
-            <a href="#seksjon">Seksjon</a>
-          </nav>
+  <!-- The page block sits on <body> itself, so there is no wrapper div. Every
+       landmark below is a real element: one <header>, one <nav>, one <main>,
+       one <footer>. Sections are <section> with an accessible name, lists are
+       lists, and a card is an <article> because it stands on its own. -->
+  <body class="page">
+    <a class="skip-link" href="#main">Hopp til innhold</a>
+
+    <header class="page__header site-header">
+      <div class="site-header__inner">
+        <a class="site-header__logo" href="/">lastone</a>
+
+        <nav class="main-nav" aria-label="Hovedmeny">
+          <ul class="main-nav__list">
+            <li class="main-nav__item">
+              <a
+                class="main-nav__link main-nav__link--current"
+                href="#main"
+                aria-current="page"
+                >Start</a
+              >
+            </li>
+            <li class="main-nav__item">
+              <a class="main-nav__link" href="#komponenter">Komponenter</a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <main class="page__main" id="main">
+      <!-- One <section> per frame in the Figma sketch. Each is named by its own
+           heading through aria-labelledby, so the landmark list reads as an
+           outline of the page. -->
+      <section class="section hero" aria-labelledby="hero-title">
+        <div class="section__inner">
+          <h1 class="hero__title" id="hero-title">Startpunkt</h1>
+
+          <p class="hero__lead">
+            Dette er skjelettet. Bytt ut innholdet etter hvert som
+            Figma-skissene bygges ut — tokens først, så markup, så stil.
+          </p>
+
+          <!-- A row of actions is a list of actions. -->
+          <ul class="hero__actions">
+            <li>
+              <a class="button button--primary" href="#komponenter"
+                >Se komponenter</a
+              >
+            </li>
+            <li>
+              <a class="button button--secondary" href="README.md"
+                >Les README</a
+              >
+            </li>
+          </ul>
         </div>
-      </header>
+      </section>
 
-      <main class="site-main" id="main">
-        <!-- Replace everything below with the sections from the Figma sketch.
-             One <section> per Figma frame, each with an accessible name. -->
-        <section class="hero" aria-labelledby="hero-title">
-          <div class="container">
-            <h1 id="hero-title">Startpunkt</h1>
-            <p class="hero__lead">
-              Dette er skjelettet. Bytt ut innholdet etter hvert som
-              Figma-skissene bygges ut — tokens først, deretter markup.
-            </p>
-            <div class="hero__actions">
-              <a class="button button--primary" href="#seksjon">Primær</a>
-              <a class="button button--secondary" href="#seksjon">Sekundær</a>
-            </div>
-          </div>
-        </section>
+      <section
+        class="section section--subtle"
+        id="komponenter"
+        aria-labelledby="komponenter-title"
+      >
+        <div class="section__inner">
+          <h2 class="section__title" id="komponenter-title">Komponenter</h2>
 
-        <section class="section section--subtle" aria-labelledby="seksjon-title" id="seksjon">
-          <div class="container">
-            <h2 id="seksjon-title">Seksjon</h2>
-            <div class="card-grid section__body">
-              <article class="card">
-                <h3 class="card__title">Kort</h3>
+          <p class="section__lead">
+            Tre kort som viser hvordan flate, kant, radius og avstand henger
+            sammen.
+          </p>
+
+          <ul class="card-list section__body">
+            <li class="card-list__item">
+              <article class="card" aria-labelledby="card-bem-title">
+                <h3 class="card__title" id="card-bem-title">BEM</h3>
                 <p class="card__body">
-                  Et kort som viser hvordan flate, kant og radius henger sammen.
+                  Én klasse per selektor:
+                  <code>.block</code>, <code>.block__element</code>,
+                  <code>.block--modifier</code>. Ingen etterkommer-selektorer.
                 </p>
               </article>
-              <article class="card">
-                <h3 class="card__title">Kort</h3>
-                <p class="card__body">
-                  Rutenettet brytes av seg selv når det blir for smalt.
-                </p>
-              </article>
-              <article class="card">
-                <h3 class="card__title">Kort</h3>
-                <p class="card__body">
-                  Alle verdier kommer fra <code>css/tokens.css</code>.
-                </p>
-              </article>
-            </div>
-          </div>
-        </section>
-      </main>
+            </li>
 
-      <footer class="site-footer">
-        <div class="container">
-          <p>© 2026 lastone</p>
+            <li class="card-list__item">
+              <article class="card" aria-labelledby="card-markup-title">
+                <h3 class="card__title" id="card-markup-title">Markup</h3>
+                <p class="card__body">
+                  Ekte elementer framfor <code>div</code>: lister er lister,
+                  et selvstendig innholdselement er en
+                  <code>&lt;article&gt;</code>.
+                </p>
+              </article>
+            </li>
+
+            <li class="card-list__item">
+              <article class="card" aria-labelledby="card-tokens-title">
+                <h3 class="card__title" id="card-tokens-title">Tokens</h3>
+                <!-- Label/value pairs are a description list, not two spans. -->
+                <dl class="spec-list card__body">
+                  <dt class="spec-list__term">Flate</dt>
+                  <dd class="spec-list__value">--color-surface</dd>
+                  <dt class="spec-list__term">Kant</dt>
+                  <dd class="spec-list__value">--color-border</dd>
+                  <dt class="spec-list__term">Radius</dt>
+                  <dd class="spec-list__value">--radius-lg</dd>
+                </dl>
+              </article>
+            </li>
+          </ul>
         </div>
-      </footer>
-    </div>
+      </section>
+    </main>
+
+    <footer class="page__footer site-footer">
+      <div class="site-footer__inner">
+        <p class="site-footer__copyright">
+          © <time datetime="2026">2026</time> lastone
+        </p>
+      </div>
+    </footer>
   </body>
 </html>

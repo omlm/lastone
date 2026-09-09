@@ -1,10 +1,30 @@
 /* ---------------------------------------------------------------------------
-   styles.css — layout and components for this site.
-   Only tokens from tokens.css may appear as values here. If a Figma sketch
-   needs a value that has no token, add the token first.
+   styles.css — the block layer.
+
+   Classic BEM. Every rule is a single class of the form:
+
+       .block            an independent, reusable thing
+       .block__element   a part that only makes sense inside its block
+       .block--modifier  a variant of a block (or of an element)
+
+   Rules of the layer, kept deliberately strict:
+   - One class per selector. No descendant, child or element selectors — a
+     block must never style its children by tag, or a semantic change in the
+     HTML silently changes the styling.
+   - No `!important`, no ids, no nesting. Every selector has the same weight,
+     so source order is the only thing that ever decides a conflict.
+   - Elements are flat: `.card__title`, never `.card__body__title`.
+   - Values come from tokens.css. A raw hex or px here is a bug.
+   - Blocks may be mixed on one element (`class="page__main section"`) — that
+     is how a block is placed without a wrapper div.
+
+   Raw element styling lives in base.css, which is the reset layer and the one
+   place tag selectors are allowed.
    --------------------------------------------------------------------------- */
 
-/* --- Layout primitives --------------------------------------------------- */
+/* ===========================================================================
+   page — the outer frame, applied to <body>. Keeps the footer at the bottom.
+   =========================================================================== */
 
 .page {
   display: flex;
@@ -12,16 +32,93 @@
   min-height: 100vh;
 }
 
-.container {
+.page__main {
+  flex: 1;
+}
+
+/* ===========================================================================
+   skip-link — the first focusable thing on the page. Off-screen until focus.
+   =========================================================================== */
+
+.skip-link {
+  position: absolute;
+  inset-inline-start: var(--space-200);
+  inset-block-start: var(--space-200);
+  z-index: 10;
+  padding: var(--space-100) var(--space-200);
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: var(--color-surface);
+  color: var(--color-fg);
+  text-decoration: none;
+  transform: translateY(calc(-1 * var(--space-800)));
+}
+
+.skip-link:focus-visible {
+  transform: none;
+}
+
+/* ===========================================================================
+   site-header
+   =========================================================================== */
+
+.site-header {
+  border-block-end: var(--border-width) solid var(--color-border);
+  background: var(--color-surface);
+}
+
+/* The one non-semantic element per block: a wrapper that centres the content
+   column. Nothing else about the block depends on it. */
+.site-header__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-300);
   width: 100%;
   max-width: var(--page-max-width);
+  min-height: var(--space-800);
   margin-inline: auto;
   padding-inline: var(--page-gutter);
 }
 
-.stack > * + * {
-  margin-block-start: var(--space-200);
+.site-header__logo {
+  color: var(--color-fg);
+  font-size: var(--font-size-300);
+  font-weight: var(--font-weight-bold);
+  text-decoration: none;
 }
+
+/* ===========================================================================
+   main-nav
+   =========================================================================== */
+
+.main-nav__list {
+  display: flex;
+  align-items: center;
+  gap: var(--space-300);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.main-nav__link {
+  color: var(--color-fg-muted);
+  font-size: var(--font-size-200);
+  text-decoration: none;
+}
+
+.main-nav__link:hover {
+  color: var(--color-fg);
+}
+
+.main-nav__link--current {
+  color: var(--color-fg);
+  font-weight: var(--font-weight-medium);
+}
+
+/* ===========================================================================
+   section — a band of the page. One per frame in the sketch.
+   =========================================================================== */
 
 .section {
   padding-block: var(--space-800);
@@ -31,60 +128,41 @@
   background: var(--color-bg-subtle);
 }
 
-/* --- Site header --------------------------------------------------------- */
-
-.site-header {
-  border-block-end: var(--border-width) solid var(--color-border);
-  background: var(--color-surface);
+.section__inner {
+  width: 100%;
+  max-width: var(--page-max-width);
+  margin-inline: auto;
+  padding-inline: var(--page-gutter);
 }
 
-.site-header__inner {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--space-300);
-  min-height: var(--space-800);
+.section__title {
+  font-size: var(--font-size-500);
 }
 
-.site-header__logo {
-  font-size: var(--font-size-300);
-  font-weight: var(--font-weight-bold);
-  color: var(--color-fg);
-  text-decoration: none;
-}
-
-.site-nav {
-  display: flex;
-  align-items: center;
-  gap: var(--space-300);
-}
-
-.site-nav a {
+.section__lead {
+  max-width: 60ch;
+  margin-block-start: var(--space-200);
   color: var(--color-fg-muted);
-  text-decoration: none;
-  font-size: var(--font-size-200);
+  font-size: var(--font-size-300);
 }
 
-.site-nav a:hover,
-.site-nav a[aria-current="page"] {
-  color: var(--color-fg);
+.section__body {
+  margin-block-start: var(--space-400);
 }
 
-/* --- Main ---------------------------------------------------------------- */
+/* ===========================================================================
+   hero
+   =========================================================================== */
 
-.site-main {
-  flex: 1;
-}
-
-.hero {
-  padding-block: var(--space-800);
+.hero__title {
+  font-size: var(--font-size-600);
 }
 
 .hero__lead {
   max-width: 60ch;
   margin-block-start: var(--space-200);
-  font-size: var(--font-size-300);
   color: var(--color-fg-muted);
+  font-size: var(--font-size-300);
 }
 
 .hero__actions {
@@ -92,9 +170,13 @@
   flex-wrap: wrap;
   gap: var(--space-150);
   margin-block-start: var(--space-400);
+  padding: 0;
+  list-style: none;
 }
 
-/* --- Button -------------------------------------------------------------- */
+/* ===========================================================================
+   button
+   =========================================================================== */
 
 .button {
   display: inline-flex;
@@ -122,8 +204,8 @@
 }
 
 .button--secondary {
-  background: var(--color-surface);
   border-color: var(--color-border);
+  background: var(--color-surface);
   color: var(--color-fg);
 }
 
@@ -132,19 +214,33 @@
   color: var(--color-fg);
 }
 
-/* --- Card ---------------------------------------------------------------- */
+/* ===========================================================================
+   card-list — a list of cards. The list owns the grid, the card owns itself.
+   =========================================================================== */
 
-.card-grid {
+.card-list {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
   gap: var(--space-300);
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
 
+.card-list__item {
+  display: flex;
+}
+
+/* ===========================================================================
+   card
+   =========================================================================== */
+
 .card {
+  flex: 1;
   padding: var(--space-300);
-  background: var(--color-surface);
   border: var(--border-width) solid var(--color-border);
   border-radius: var(--radius-lg);
+  background: var(--color-surface);
   box-shadow: var(--shadow-100);
 }
 
@@ -157,7 +253,31 @@
   color: var(--color-fg-muted);
 }
 
-/* --- Site footer --------------------------------------------------------- */
+/* ===========================================================================
+   spec-list — a <dl> of label/value pairs.
+   =========================================================================== */
+
+.spec-list {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: var(--space-050) var(--space-200);
+  margin: 0;
+  font-size: var(--font-size-100);
+}
+
+.spec-list__term {
+  color: var(--color-fg-muted);
+}
+
+.spec-list__value {
+  margin: 0;
+  color: var(--color-fg);
+  font-family: var(--font-mono);
+}
+
+/* ===========================================================================
+   site-footer
+   =========================================================================== */
 
 .site-footer {
   padding-block: var(--space-400);
@@ -166,27 +286,18 @@
   font-size: var(--font-size-100);
 }
 
-/* --- Skip link ----------------------------------------------------------- */
-
-.skip-link {
-  position: absolute;
-  inset-inline-start: var(--space-200);
-  inset-block-start: var(--space-200);
-  z-index: 10;
-  padding: var(--space-100) var(--space-200);
-  background: var(--color-surface);
-  border: var(--border-width) solid var(--color-border);
-  border-radius: var(--radius-sm);
-  color: var(--color-fg);
-  text-decoration: none;
-  transform: translateY(calc(-1 * var(--space-800)));
+.site-footer__inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-200);
+  width: 100%;
+  max-width: var(--page-max-width);
+  margin-inline: auto;
+  padding-inline: var(--page-gutter);
 }
 
-.skip-link:focus-visible {
-  transform: none;
-}
-
-/* Body of a section, separated from its heading. */
-.section__body {
-  margin-block-start: var(--space-400);
+.site-footer__copyright {
+  margin: 0;
 }
