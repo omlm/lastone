@@ -44,12 +44,18 @@
      share of 1512 (e.g. 100 / 1512 = 6.61vw). */
   --font-size-table: clamp(0.875rem, 1.32vw, 1.25rem); /*   20px */
   --font-size-body: clamp(1.125rem, 1.85vw, 1.75rem); /*    28px */
+  /* Buttons keep their own size. It tracks the body size between the
+     breakpoint and 1512 so the nav always fits, but does not follow prose
+     down to 20px on small screens — Figma holds the buttons at 28. */
+  --font-size-control: clamp(1.25rem, 1.85vw, 1.75rem); /*  28px */
   --font-size-marker: clamp(1.25rem, 2.12vw, 2rem); /*      32px */
   --font-size-lead: clamp(1.5rem, 2.65vw, 2.5rem); /*       40px */
   --font-size-cta: clamp(1.75rem, 3.7vw, 3.5rem); /*        56px */
   --font-size-page-title: clamp(2.5rem, 5.29vw, 5rem); /*   80px */
   --font-size-hero: clamp(2rem, 6.61vw, 6.25rem); /*       100px */
   --font-size-hero-lead: clamp(2.375rem, 7.94vw, 7.5rem); /* 120px */
+  --font-size-accordion: 1.75rem; /*                          28px */
+  --font-size-menu: 2.5rem; /*                                40px */
 
   /* Figma leaves display type on AUTO line-height; body text is set to 135%. */
   --line-height-display: 1;
@@ -83,8 +89,31 @@
   --measure-table: 976px; /* width of the results Table in Figma    */
 
   --size-control: 60px; /*      nav / toggle button height  */
+  --size-nav-band: 60px; /*     height of the nav row        */
   --size-control-lg: 80px; /*   the index CTA button height  */
   --size-sponsor: 150px; /*     sponsor logo box height     */
   --hero-ratio: 1512 / 675;
   --map-ratio: 1432 / 900;
+}
+
+/* ---------------------------------------------------------------------------
+   Small screens — the "Info small" and "Menu small" frames (402px wide).
+
+   The breakpoint is 600px. It cannot be a token: a media query cannot read a
+   custom property. It is written literally here and in styles.css, and those
+   are the only two places it appears.
+
+   Redefining tokens rather than the blocks is what keeps the block layer
+   identical at both sizes — only these values change.
+   --------------------------------------------------------------------------- */
+
+@media (max-width: 600px) {
+  :root {
+    --font-size-body: 1.25rem; /*                        28 -> 20px */
+    --font-size-control: 1.75rem; /*        held at 28px, per Info small */
+    /* 60px at the 402px frame width, scaling down from there. */
+    --font-size-page-title: clamp(2rem, 14.93vw, 3.75rem); /* 80 -> 60px */
+    --page-gutter: var(--space-20); /*                   40 -> 20px */
+    --size-nav-band: 6.25rem; /*                         60 -> 100px */
+  }
 }

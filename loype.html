@@ -22,6 +22,17 @@
     <a class="skip-link" href="#main">Hopp til innhold</a>
 
     <header class="page__header">
+      <!-- The menu's open/closed state, with no JavaScript to hold it: both
+           "meny" and "lukk" are labels for this one checkbox. It only appears
+           at or below the 600px breakpoint. -->
+      <input
+        class="menu__toggle"
+        type="checkbox"
+        id="menu-toggle"
+        aria-label="Meny"
+      />
+      <label class="menu__button pill pill--invert" for="menu-toggle">meny</label>
+
       <nav class="site-nav" aria-label="Hovedmeny">
         <a class="site-nav__brand pill" href="index.html">lastone__krs</a>
 
@@ -37,6 +48,19 @@
             </li>
         </ul>
       </nav>
+
+      <div class="menu">
+        <div class="menu__bar">
+          <label class="menu__close pill" for="menu-toggle">lukk</label>
+        </div>
+
+        <ul class="menu__list">
+          <li class="menu__item"><a class="menu__link" href="info.html">info</a></li>
+          <li class="menu__item"><a class="menu__link" href="resultater.html">resultater</a></li>
+          <li class="menu__item"><a class="menu__link" href="loype.html" aria-current="page">løype</a></li>
+          <li class="menu__item"><span class="menu__link menu__link--pending" aria-disabled="true">påmelding</span></li>
+        </ul>
+      </div>
     </header>
 
     <main class="page__main" id="main">

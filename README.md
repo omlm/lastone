@@ -82,12 +82,54 @@ Everything that looks like a button is this one block, mixed onto its slot —
 Carries an `ON_HOVER` reaction to `#fff0fa`. Only the data rows
 (`--data`) take it; the header row (`--head`) does not.
 
+### Accordion — `.fact` (node `1609:1458`)
+
+`Expanded` (No / Yes) with `Title` and `Text` slots. Implemented as native
+`<details>`/`<summary>`, which *is* a disclosure, so no JavaScript holds the
+state:
+
+- **At or below the breakpoint** the element behaves as drawn — collapsed by
+  default, the term tappable, each entry independent.
+- **Above it** the desktop Info frame shows every entry open with the term and
+  its text as one flowing paragraph. `::details-content` forced visible and set
+  `inline` produces exactly that, regardless of the `open` attribute, so the
+  disclosure is simply inert at that size.
+
+Figma trims the term's box to the cap height (20px for 28px Inter), and
+measures the 40px gap and the 8px body offset from there;
+`text-box: trim-both cap alphabetic` is the CSS equivalent and is applied
+behind an `@supports` guard.
+
+### Menu — `.menu` (node `1609:1630`)
+
+The small-screen nav replaces the three links with a `meny` button opening a
+full-screen black overlay. State is a single checkbox that both `meny` and
+`lukk` label, so it works without JavaScript. Hidden at every size by default,
+and only revealed below the breakpoint where the button exists.
+
 ### Toggle and Nav (nodes `1566:2386`, `1562:1206`)
 
 Both are variant sets over *which item is selected*, with no states of their
 own — the buttons inside carry the states. So the nav is one `.pill--invert`
 plus `aria-current="page"`, and the toggle is three radios whose checked label
 is the Invert variant.
+
+## The breakpoint is 600px
+
+Figma has two small frames at 402px — **Info small** (`1609:1363`) and
+**Menu small** (`1609:1630`). At or below 600px the site follows them: a 100px
+nav band with the brand and a `meny` button on its bottom edge, 20px gutters,
+a 60px page title, 20px body text, and the info entries collapsed into
+accordions.
+
+The breakpoint is written literally in `css/tokens.css` and `css/styles.css`
+and nowhere else — a media query cannot read a custom property. What changes at
+it is mostly *tokens*, not blocks: type sizes, the gutter and the nav band get
+new values and the block layer is left alone.
+
+Buttons are the exception that proves it. `--font-size-control` is separate
+from `--font-size-body` precisely because Figma drops prose to 20px on small
+screens but holds the buttons at 28px.
 
 ## CSS: classic BEM
 
@@ -127,10 +169,13 @@ selector, so the rule that actually matters still holds:
   `<nav>` for navigation. Never a `<header>` inside `<main>`.
 - **One `<section>` per Figma frame section**, each named with
   `aria-labelledby` pointing at its own heading.
-- **Lists are lists.** Nav, sponsors and the hero actions are `<ul>`. The info
-  page is a `<dl>` — a bold term followed by its text is a description list.
-  The results are a real `<table>` with `<caption>`, `<colgroup>` and
-  `<th scope="col">`.
+- **Lists are lists.** Nav, sponsors, the hero actions, the menu and the info
+  entries are all `<ul>`. The results are a real `<table>` with `<caption>`,
+  `<colgroup>` and `<th scope="col">`.
+- **`<details>`/`<summary>` for the info entries**, because they are a
+  disclosure on small screens. Native semantics, native keyboard behaviour, no
+  script. (These were a `<dl>` before the small frames existed; a disclosure is
+  the better fit now that the term is a control.)
 - **`<time datetime>`** for the event date, `<article>` for anything
   self-contained, `<figure>` for the map.
 - **Decoration comes from CSS.** The `__` before a page title and the `___`
@@ -163,7 +208,11 @@ one is also commented at the site in the markup.
 | 2 | **The class each runner is filtered into is inferred from their name.** The results data has no class field, so Damer / Herrer is decided by given-name convention (and, for one Lithuanian name, by the surname's masculine form). It is a heuristic: it will be wrong for anyone whose name does not follow the convention, and nobody chose it for themselves. 18 are listed as Damer, 31 as Herrer. | `resultater.html` | A real class field from the race registration, which is the only authority on this. |
 | 2b | Under a filter the **rank column keeps the overall placement**, so the numbers have gaps (1, 3, 4, 7…). Whether a class view should renumber from 1 is not specified in the design. | `resultater.html` | A decision, then either renumbering in the data or per-class pages. |
 | 3 | The index **"med deg på" is a Primary Button in Figma with no target**. Rendered as a static tagline via `.pill--static`, so the Primary hover — black bg, pink text — is implemented but has no live instance on the site. | `index.html` | A påmelding URL. Drop `.pill--static`, make it an `<a>`, and the hover comes back on its own. |
-| 4 | **No mobile design exists.** The two 402px `small` frames on the Figma page still contain 1512px children, so they are explorations, not a spec. Everything under the 768px breakpoint is a decision made in code. | `css/styles.css` | Small-screen frames, if the layout below 768px matters. |
+| 4 | **Only the info page has a small frame.** *Info small* and *Menu small* are implemented to spec. The index, løype and resultater pages have none, so their behaviour below 600px — the square hero crop, the stacked hero lines, the half-height sponsor row, the table's own scroll box — is a decision made in code. | `css/styles.css` | Small frames for the other three, if their layout below 600px matters. |
+| 8 | **The menu item `påmelding` is not a link.** *Menu small* lists four items but no påmelding page or URL exists, so it renders as the design draws it and does nothing rather than shipping a 404. | `css/styles.css`, all pages | The same URL gap #3 needs; then it becomes an `<a>`. |
+| 9 | **Figma calls the third menu item `__løypa`** while the desktop nav, the page title and the filename all say `løype`. The site uses one label — `løype` — rather than two names for one page. | *Menu small* | Pick one and make Figma agree. |
+| 10 | **The menu is a checkbox, not a button.** A CSS-only overlay means it announces as a checkbox rather than an expandable control, and the focus ring sits on the `meny` button underneath while the overlay is open. It is operable by keyboard and pointer, but it is not what a screen-reader user expects. | `css/styles.css` | About ten lines of JS: a `<button aria-expanded>`, focus moved into the overlay, Escape to close. |
+| 11 | **`text-box` trimming is recent.** Where it is unsupported the accordion terms sit ~8px further apart than Figma. Content and behaviour are unaffected. | `css/styles.css` | Nothing — it resolves as browsers catch up. |
 | 5 | **Typo corrected, not reproduced.** The Premier entry reads "Det b lir også uttrekkspremier" in Figma; the page says "Det blir". | `info.html` | Fix it in Figma so the two agree. |
 | 6 | The file's **variable collection is unused**. "Collection 1" is built around a purple accent (`#4C3267`); these four frames use flat black, white and `#ff67cf` with no variables bound. | `css/tokens.css` | Decide whether the pages should adopt the collection or the collection should be replaced. |
 | 7 | **Four spacing values sit off the SP scale**: 10, 36, 80 and 160px, against a scale of 4/8/12/16/20/24/32/40/48/64. They are tokenised as `--space-off-*` so they stay countable. | `css/tokens.css` | Either add them to the Figma scale or move the frames onto it. |

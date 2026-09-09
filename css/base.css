@@ -58,6 +58,16 @@ table {
   border-collapse: collapse;
 }
 
+/* The disclosure triangle is not in the design; the "___" marker replaces it.
+   list-style covers current browsers, the vendor pseudo covers older WebKit. */
+summary {
+  list-style: none;
+}
+
+summary::-webkit-details-marker {
+  display: none;
+}
+
 fieldset {
   border: 0;
   padding: 0;

@@ -22,6 +22,17 @@
     <a class="skip-link" href="#main">Hopp til innhold</a>
 
     <header class="page__header">
+      <!-- The menu's open/closed state, with no JavaScript to hold it: both
+           "meny" and "lukk" are labels for this one checkbox. It only appears
+           at or below the 600px breakpoint. -->
+      <input
+        class="menu__toggle"
+        type="checkbox"
+        id="menu-toggle"
+        aria-label="Meny"
+      />
+      <label class="menu__button pill pill--invert" for="menu-toggle">meny</label>
+
       <nav class="site-nav" aria-label="Hovedmeny">
         <a class="site-nav__brand pill" href="index.html">lastone__krs</a>
 
@@ -37,6 +48,19 @@
             </li>
         </ul>
       </nav>
+
+      <div class="menu">
+        <div class="menu__bar">
+          <label class="menu__close pill" for="menu-toggle">lukk</label>
+        </div>
+
+        <ul class="menu__list">
+          <li class="menu__item"><a class="menu__link" href="info.html" aria-current="page">info</a></li>
+          <li class="menu__item"><a class="menu__link" href="resultater.html">resultater</a></li>
+          <li class="menu__item"><a class="menu__link" href="loype.html">løype</a></li>
+          <li class="menu__item"><span class="menu__link menu__link--pending" aria-disabled="true">påmelding</span></li>
+        </ul>
+      </div>
     </header>
 
     <main class="page__main" id="main">
@@ -47,58 +71,74 @@
 
         <p class="intro">Vi gjentar suksessen fra i sommer og ønsker velkommen enda en last one i Kristiansand. Midt i den mørke og kalde tiden på året er det ingen grunn til at løpssesongen skal stoppe opp. Her har man sjansen til å løpe sammen med folk fra ultraløperfamilien, i og omkring idylliske Jegersberg.</p>
 
-        <!-- Figma's "Bullet" rows: a bold term and its text flowing as one
-             paragraph. That is a description list. -->
-        <dl class="fact-list">
-          <div class="fact-list__item">
-            <dt class="fact-list__term">Kleskode</dt>
-            <dd class="fact-list__desc">
-              Vi gjentar suksessen fra i sommer og ønsker velkommen enda en last one i Kristiansand. Midt i den mørke og kalde tiden på året er det ingen grunn til at løpssesongen skal stoppe opp. Her har man sjansen til å løpe sammen med folk fra ultraløperfamilien, i og omkring idylliske Jegersberg.
-            </dd>
-          </div>
+        <!-- Figma's "Accordion" (node 1609:1458). A disclosure per entry, so
+             <details>/<summary>: collapsed on small screens as the component
+             is drawn, forced open and inline above the breakpoint where the
+             desktop frame shows every entry as one flowing paragraph. -->
+        <ul class="fact-list">
+          <li class="fact-list__item">
+            <details class="fact" id="fact-kleskode">
+              <summary class="fact__term">Kleskode</summary>
+              <p class="fact__text">
+                Vi gjentar suksessen fra i sommer og ønsker velkommen enda en last one i Kristiansand. Midt i den mørke og kalde tiden på året er det ingen grunn til at løpssesongen skal stoppe opp. Her har man sjansen til å løpe sammen med folk fra ultraløperfamilien, i og omkring idylliske Jegersberg.
+              </p>
+            </details>
+          </li>
 
-          <div class="fact-list__item">
-            <dt class="fact-list__term">Mat og drikke</dt>
-            <dd class="fact-list__desc">
-              Det blir servert snacks/frukt - samt vann, cola og sportsdrikk. I tillegg blir det varmmat hver 7. runde. Lurt å ha med egen favorittnæring/drikke - spesielt hvis du er kresen i magen. Enkel drikkestasjon med vann midtveis i løypa. NB! Ha med egen kopp/flaske.
-            </dd>
-          </div>
+          <li class="fact-list__item">
+            <details class="fact" id="fact-mat-og-drikke">
+              <summary class="fact__term">Mat og drikke</summary>
+              <p class="fact__text">
+                Det blir servert snacks/frukt - samt vann, cola og sportsdrikk. I tillegg blir det varmmat hver 7. runde. Lurt å ha med egen favorittnæring/drikke - spesielt hvis du er kresen i magen. Enkel drikkestasjon med vann midtveis i løypa. NB! Ha med egen kopp/flaske.
+              </p>
+            </details>
+          </li>
 
-          <div class="fact-list__item">
-            <dt class="fact-list__term">Obligatorisk utstyr</dt>
-            <dd class="fact-list__desc">
-              Det er påbudt med hodelykt og refleksvest i de mørke timene.
-            </dd>
-          </div>
+          <li class="fact-list__item">
+            <details class="fact" id="fact-obligatorisk-utstyr">
+              <summary class="fact__term">Obligatorisk utstyr</summary>
+              <p class="fact__text">
+                Det er påbudt med hodelykt og refleksvest i de mørke timene.
+              </p>
+            </details>
+          </li>
 
-          <div class="fact-list__item">
-            <dt class="fact-list__term">Base</dt>
-            <dd class="fact-list__desc">
-              Det er mulighet for å ha base mellom rundene både inne i hall og ute - husk stol - evt madrass for dere som skal løpe lenge 😉
-            </dd>
-          </div>
+          <li class="fact-list__item">
+            <details class="fact" id="fact-base">
+              <summary class="fact__term">Base</summary>
+              <p class="fact__text">
+                Det er mulighet for å ha base mellom rundene både inne i hall og ute - husk stol - evt madrass for dere som skal løpe lenge 😉
+              </p>
+            </details>
+          </li>
 
-          <div class="fact-list__item">
-            <dt class="fact-list__term">Overnatting</dt>
-            <dd class="fact-list__desc">
-              Overnatting må du ordne deg på egenhånd for vi har ingen avtale med noen hoteller. Etter løpet er det mulig å legge seg ned i hallen for de som trenger det.
-            </dd>
-          </div>
+          <li class="fact-list__item">
+            <details class="fact" id="fact-overnatting">
+              <summary class="fact__term">Overnatting</summary>
+              <p class="fact__text">
+                Overnatting må du ordne deg på egenhånd for vi har ingen avtale med noen hoteller. Etter løpet er det mulig å legge seg ned i hallen for de som trenger det.
+              </p>
+            </details>
+          </li>
 
-          <div class="fact-list__item">
-            <dt class="fact-list__term">Premier</dt>
-            <dd class="fact-list__desc">
-              Vinner av dame- og herreklassene får stor, inngravert vandrepokal. Løyperekord og norgesrekord premieres med henholdsvis 5000 og 10000. Det blir også uttrekkspremier fra sponsorer.
-            </dd>
-          </div>
+          <li class="fact-list__item">
+            <details class="fact" id="fact-premier">
+              <summary class="fact__term">Premier</summary>
+              <p class="fact__text">
+                Vinner av dame- og herreklassene får stor, inngravert vandrepokal. Løyperekord og norgesrekord premieres med henholdsvis 5000 og 10000. Det blir også uttrekkspremier fra sponsorer.
+              </p>
+            </details>
+          </li>
 
-          <div class="fact-list__item">
-            <dt class="fact-list__term">T-skjorte</dt>
-            <dd class="fact-list__desc">
-              Deltagertrøye er inkludert i påmeldingsavgiften til alle som melder seg på før 1_11_2026.
-            </dd>
-          </div>
-        </dl>
+          <li class="fact-list__item">
+            <details class="fact" id="fact-t-skjorte">
+              <summary class="fact__term">T-skjorte</summary>
+              <p class="fact__text">
+                Deltagertrøye er inkludert i påmeldingsavgiften til alle som melder seg på før 1_11_2026.
+              </p>
+            </details>
+          </li>
+        </ul>
       </div>
     </main>
 

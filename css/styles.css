@@ -35,6 +35,13 @@
   flex-direction: column;
 }
 
+/* Positioning context for the menu button, which sits in the nav band but is
+   a sibling of the nav so its focus state can be styled without reaching
+   through a descendant selector. */
+.page__header {
+  position: relative;
+}
+
 /* The nav sits above the page flow on Index, laid over the hero image. */
 .page__header--overlay {
   position: absolute;
@@ -51,7 +58,7 @@
   width: 100%;
   max-width: var(--page-width);
   margin-inline: auto;
-  padding: var(--space-40);
+  padding: var(--page-gutter);
 }
 
 .page__body--center {
@@ -93,7 +100,7 @@
   justify-content: space-between;
   gap: var(--space-20);
   width: 100%;
-  min-height: var(--size-control);
+  min-height: var(--size-nav-band);
 }
 
 .site-nav__brand {
@@ -138,7 +145,7 @@
   padding: var(--space-off-10) var(--space-20);
   background: var(--color-surface-white);
   color: var(--color-text-default);
-  font-size: var(--font-size-body);
+  font-size: var(--font-size-control);
   font-weight: var(--font-weight-medium);
   line-height: 1.21;
   text-decoration: none;
@@ -274,8 +281,17 @@
 }
 
 /* ===========================================================================
-   fact-list — Figma's "Bullet" rows. A description list: bold term, then its
-   text, flowing as one paragraph with a hanging "___" marker.
+   fact-list / fact — Figma's "Accordion" (node 1609:1458).
+
+   One markup, two behaviours, no JavaScript:
+
+   - Small screens are the component as drawn: Expanded=No by default, the
+     term tappable, the body below it. That is exactly what <details> does on
+     its own, so it gets to.
+   - Above the breakpoint the desktop Info frame shows every entry open with
+     the term and its text flowing as ONE paragraph. ::details-content forced
+     visible and set inline gives that, whatever the open attribute says — so
+     the disclosure simply has no effect at that size.
    =========================================================================== */
 
 .fact-list {
@@ -287,30 +303,110 @@
   margin: 0;
   padding-block-start: var(--space-40);
   padding-inline-start: var(--space-off-80);
+  list-style: none;
 }
 
-.fact-list__item {
+.fact {
   position: relative;
-  padding-inline-start: 45px;
 }
 
-.fact-list__term {
-  display: inline;
+.fact__term {
+  font-size: var(--font-size-accordion);
   font-weight: var(--font-weight-black);
+  line-height: 1;
+  cursor: pointer;
+  list-style: none;
 }
 
-.fact-list__term::before {
+/* The marker. Figma draws it as a 40x2 bar on small screens and as "___" text
+   on the desktop frame; one rule covers both. */
+.fact__term::before {
   content: "___";
-  position: absolute;
-  inset-inline-start: 0;
-  inset-block-start: 0;
-  font-size: var(--font-size-marker);
   font-weight: var(--font-weight-medium);
 }
 
-.fact-list__desc {
-  display: inline;
+.fact__text {
   margin: 0;
+}
+
+/* ===========================================================================
+   menu — Figma's "Menu small" (node 1609:1630). Below the breakpoint only.
+
+   State without JavaScript: a checkbox holds open/closed and both the "meny"
+   and "lukk" labels point at it. Hidden at every size by default, so it can
+   only be reached where the button that opens it exists.
+   =========================================================================== */
+
+.menu__toggle {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+}
+
+.menu__button {
+  display: none;
+  position: absolute;
+  inset-block-end: 0;
+  inset-inline-end: 0;
+  z-index: 2;
+  min-height: var(--size-control);
+}
+
+.menu__toggle:focus-visible + .menu__button {
+  outline: 3px solid var(--color-text-default);
+  outline-offset: 2px;
+}
+
+.menu {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  flex-direction: column;
+  gap: var(--space-40);
+  background: var(--color-surface-invert);
+  overflow-y: auto;
+}
+
+.menu__bar {
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+  min-height: var(--size-nav-band);
+}
+
+.menu__close {
+  min-height: var(--size-control);
+}
+
+.menu__list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-40);
+  margin: 0;
+  padding-inline: var(--space-20);
+  list-style: none;
+}
+
+.menu__link {
+  display: block;
+  padding-block: var(--space-24);
+  color: var(--color-text-invert);
+  font-size: var(--font-size-menu);
+  font-weight: var(--font-weight-black);
+  line-height: 1.21;
+  text-decoration: none;
+}
+
+.menu__link::before {
+  content: "__";
+}
+
+/* No påmelding page exists yet, so this one is a span, not a link. */
+.menu__link--pending {
+  cursor: default;
 }
 
 /* ===========================================================================
@@ -514,20 +610,79 @@
 }
 
 /* ===========================================================================
-   Narrow viewports.
+   Above the breakpoint — the desktop Info frame.
 
-   Figma has no finished small-screen frames — the two 402px "small" frames on
-   the page still hold 1512px children — so everything below this line is a
-   decision made in code, not a design that was handed over. See README.
+   The only rules that need a min-width query: they undo the disclosure so
+   every entry reads as one flowing paragraph with a hanging marker, which is
+   what the 1512px frame shows.
    =========================================================================== */
 
-@media (max-width: 768px) {
-  /* Laying the nav over the photo needs one uninterrupted row to read as a
-     nav. Once it wraps there is no such row, so it comes out of the overlay
-     and sits above the hero instead. */
+@media (min-width: 601px) {
+  .fact {
+    padding-inline-start: 45px;
+  }
+
+  .fact__term {
+    display: inline;
+    font-size: inherit;
+    cursor: text;
+  }
+
+  .fact__term::before {
+    position: absolute;
+    inset-block-start: 0;
+    inset-inline-start: 0;
+    font-size: var(--font-size-marker);
+  }
+
+  .fact__text {
+    display: inline;
+  }
+
+  /* Forces the body visible whatever the open attribute says, and inline so
+     it continues the term's line rather than starting its own. */
+  .fact::details-content {
+    display: inline;
+    content-visibility: visible;
+    block-size: auto;
+  }
+}
+
+/* ===========================================================================
+   At or below the breakpoint — the "Info small" and "Menu small" frames.
+
+   Figma has these two at 402px. Everything else here (the hero crop, the
+   sponsor row, the results table) has no small frame and is a decision made
+   in code — see the README.
+   =========================================================================== */
+
+@media (max-width: 600px) {
+  /* Laying the nav over the photo needs the links inline over the image; with
+     only a brand and a menu button it reads better as a solid bar. Relative,
+     not static: the menu button is absolutely positioned against the header,
+     and a static header would hand it to .page and drop it at the foot of the
+     document. */
   .page__header--overlay {
-    position: static;
+    position: relative;
     background: var(--color-surface-white);
+  }
+
+  /* The nav band is 100px and its contents sit on the bottom edge. */
+  .site-nav {
+    align-items: flex-end;
+  }
+
+  /* The three links move into the menu overlay. */
+  .site-nav__list {
+    display: none;
+  }
+
+  .menu__button {
+    display: inline-flex;
+  }
+
+  .menu__toggle:checked ~ .menu {
+    display: flex;
   }
 
   /* The photo is a wide crop; a portrait hero would throw most of it away. */
@@ -535,16 +690,17 @@
     aspect-ratio: 1 / 1;
   }
 
-  /* The hand-placed hero lines stop working once there is no room to indent
-     them; stack them instead. */
+  /* No small frame exists for the index, so this is a code decision: the three
+     hand-placed hero lines stack. Keeping the desktop composition would run
+     "kristiansand" off the right edge below about 360px. */
   .hero__title {
     position: absolute;
     inset-block: auto var(--space-24);
     inset-inline: var(--space-20);
-    width: auto;
-    aspect-ratio: auto;
     display: flex;
     flex-direction: column;
+    width: auto;
+    aspect-ratio: auto;
   }
 
   .hero__line {
@@ -552,26 +708,36 @@
     white-space: normal;
   }
 
-  .site-nav {
-    flex-wrap: wrap;
-    row-gap: 0;
-    padding-inline: var(--space-04);
+  /* Accordion: the component as drawn — head, then body 8px below it. */
+  .fact-list {
+    padding-block-start: 0;
+    padding-inline-start: 0;
   }
 
-  .fact-list {
-    padding-inline-start: 0;
+  .fact__text {
+    margin-block-start: var(--space-08);
+  }
+
+  /* Figma trims the term's box to the cap height — 20px for 28px Inter — and
+     measures the 40px gap and the 8px body offset from there. Without this the
+     line box adds ~8px to every step. Guarded: where it is unsupported the
+     rhythm is just slightly looser, which is a fine way to lose. */
+  @supports (text-box: trim-both cap alphabetic) {
+    .fact__term {
+      text-box: trim-both cap alphabetic;
+    }
   }
 
   .results {
     padding-inline-start: 0;
   }
 
-  .sponsors__list {
-    gap: var(--space-20);
-  }
-
   .sponsors {
     padding-block-start: var(--space-64);
+  }
+
+  .sponsors__list {
+    gap: var(--space-20);
   }
 
   .sponsors__item {
