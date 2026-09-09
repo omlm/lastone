@@ -83,15 +83,17 @@
    site-nav — 60px tall, brand left, links right with a 12px gap.
    =========================================================================== */
 
+/* Full-bleed: the nav tracks the viewport rather than stopping at the 1512
+   content column, so the brand and the links stay on the outer edges at any
+   width — which is also what keeps it aligned with the hero photo it sits
+   over on the index page. The buttons' own 20px padding is the only inset. */
 .site-nav {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: var(--space-20);
   width: 100%;
-  max-width: var(--page-width);
   min-height: var(--size-control);
-  margin-inline: auto;
 }
 
 .site-nav__brand {
