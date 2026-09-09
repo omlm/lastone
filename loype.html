@@ -3,8 +3,8 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>lastone__krs — last one standing kristiansand</title>
-    <meta name="description" content="Last one standing i Kristiansand, 12. november 2026. Løp så lenge du klarer i og rundt Jegersberg." />
+    <title>løype — lastone__krs</title>
+    <meta name="description" content="Løypekart for last one standing i Kristiansand — 6,7 km per runde." />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -18,13 +18,10 @@
     <link rel="stylesheet" href="css/styles.css" />
   </head>
 
-  <!-- One <header>, one <main>, one <footer>. The page block sits on <body>,
-       so there is no wrapper div; the only div per block is its content-column
-       wrapper. -->
   <body class="page">
     <a class="skip-link" href="#main">Hopp til innhold</a>
 
-    <header class="page__header page__header--overlay">
+    <header class="page__header">
       <nav class="site-nav" aria-label="Hovedmeny">
         <a class="site-nav__brand pill" href="index.html">lastone__krs</a>
 
@@ -33,7 +30,7 @@
               <a class="site-nav__link pill" href="info.html">info</a>
             </li>
             <li class="site-nav__item">
-              <a class="site-nav__link pill" href="loype.html">løype</a>
+              <a class="site-nav__link pill pill--current" href="loype.html" aria-current="page">løype</a>
             </li>
             <li class="site-nav__item">
               <a class="site-nav__link pill" href="resultater.html">resultater</a>
@@ -43,31 +40,45 @@
     </header>
 
     <main class="page__main" id="main">
-      <!-- Figma: Hero, 1512x675, nav laid over the photo. -->
-      <section class="hero" aria-labelledby="hero-title">
-        <img
-          class="hero__image"
-          src="assets/images/hero.jpg"
-          alt="Løpere samlet ved start i Jegersberg, i svart-hvitt."
-          width="1600"
-          height="715"
-        />
-
-        <h1 class="hero__title" id="hero-title">
-          <span class="hero__line hero__line--name">last one standing</span>
-          <span class="hero__line hero__line--place">kristiansand</span>
-          <time class="hero__line hero__line--date" datetime="2026-11-12"
-            >12 nov 2026</time
-          >
-        </h1>
-      </section>
-
-      <div class="page__body page__body--center">
-        <!-- GAP: this is a Button in Figma but carries no target. Rendered as a
-             static tagline until there is a påmelding URL to point it at. -->
-        <p class="pill pill--accent pill--lead">med deg på</p>
+      <div class="page__body">
+        <h1 class="page-title">løype</h1>
 
         <p class="intro">Vi gjentar suksessen fra i sommer og ønsker velkommen enda en last one i Kristiansand. Midt i den mørke og kalde tiden på året er det ingen grunn til at løpssesongen skal stoppe opp. Her har man sjansen til å løpe sammen med folk fra ultraløperfamilien, i og omkring idylliske Jegersberg.</p>
+
+        <section class="course" aria-labelledby="course-title">
+          <div class="course__head">
+            <h2 class="course__title" id="course-title">
+              lastone__krs/course__map/6.7 km
+            </h2>
+
+            <!-- GAP: the GPX file is not in the Figma file. The link is wired
+                 to where it should live; drop the export in at that path. -->
+            <a
+              class="course__download"
+              href="assets/lastone-krs-course.gpx"
+              download
+            >
+              <img
+                class="course__icon"
+                src="assets/logos/download.svg"
+                alt=""
+                width="31"
+                height="29"
+              />
+              gpx
+            </a>
+          </div>
+
+          <figure class="course__map">
+            <img
+              class="course__image"
+              src="assets/images/course-map.jpg"
+              alt="Kart over løypa i og rundt Jegersberg. Runden er 6,7 km."
+              width="1600"
+              height="1006"
+            />
+          </figure>
+        </section>
       </div>
     </main>
 

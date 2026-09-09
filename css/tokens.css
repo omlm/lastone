@@ -1,88 +1,85 @@
 /* ---------------------------------------------------------------------------
-   tokens.css — the single source of truth for values that come from Figma.
-   Every colour, size, radius and font in this site should resolve to a token
-   declared here. If a value is not in this file, it does not belong in a rule.
-   Keep the names aligned with the Figma variable names so drift is visible.
+   tokens.css — every value that comes from Figma.
+
+   Source: KRSUltra, page "Lastone" (frames Index / Info / Course / Results),
+   read off the nodes themselves at the 1512px design width.
+
+   NOTE ON THE FIGMA VARIABLE COLLECTION: the file carries a variable set
+   ("Collection 1") built around a purple accent (#4C3267) with Light mode
+   only. These four frames do not use it — they use flat #000/#fff and the
+   pink below. The names here follow that collection's naming so the two can
+   be reconciled later, but the VALUES are what the frames actually contain.
    --------------------------------------------------------------------------- */
 
 :root {
   color-scheme: light;
 
-  /* --- Colour ------------------------------------------------------------ */
-  --color-bg: #ffffff;
-  --color-bg-subtle: #f6f7f8;
-  --color-surface: #ffffff;
-  --color-border: #e3e6e9;
+  /* --- Colour ------------------------------------------------------------
+     Three colours in the whole design. The pink is the only accent. */
+  --color-surface-white: #ffffff;
+  --color-surface-invert: #000000;
+  --color-surface-accent: #ff67cf;
 
-  --color-fg: #14171a;
-  --color-fg-muted: #5b6570;
-  --color-fg-inverse: #ffffff;
+  --color-text-default: #000000;
+  --color-text-invert: #ffffff;
 
-  --color-accent: #1a56db;
-  --color-accent-hover: #1746b0;
-  --color-focus: #1a56db;
+  --color-stroke-default: #000000;
 
-  /* --- Typography -------------------------------------------------------- */
-  --font-sans: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial,
-    sans-serif;
-  --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  /* --- Typography --------------------------------------------------------
+     Inter, in two weights: Medium (500) for everything that reads as text,
+     Black (900) for the display type and table headers. */
+  --font-sans: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
 
-  --font-size-100: 0.8125rem; /* 13px */
-  --font-size-200: 0.9375rem; /* 15px */
-  --font-size-300: 1.0625rem; /* 17px */
-  --font-size-400: 1.375rem; /*  22px */
-  --font-size-500: 1.875rem; /*  30px */
-  --font-size-600: 2.5rem; /*    40px */
-
-  --line-height-tight: 1.2;
-  --line-height-normal: 1.5;
-
-  --font-weight-regular: 400;
   --font-weight-medium: 500;
-  --font-weight-bold: 700;
+  --font-weight-black: 900;
 
-  /* --- Space ------------------------------------------------------------- */
-  --space-050: 0.25rem; /*  4px */
-  --space-100: 0.5rem; /*   8px */
-  --space-150: 0.75rem; /* 12px */
-  --space-200: 1rem; /*    16px */
-  --space-300: 1.5rem; /*  24px */
-  --space-400: 2rem; /*    32px */
-  --space-600: 3rem; /*    48px */
-  --space-800: 4rem; /*    64px */
+  /* Figma sizes are fixed at 1512px wide. Each token keeps the Figma value as
+     its ceiling and scales down with the viewport, so the design holds at
+     1512 and stays readable below it. The vw figure is the Figma px as a
+     share of 1512 (e.g. 100 / 1512 = 6.61vw). */
+  --font-size-table: clamp(0.875rem, 1.32vw, 1.25rem); /*   20px */
+  --font-size-body: clamp(1.125rem, 1.85vw, 1.75rem); /*    28px */
+  --font-size-marker: clamp(1.25rem, 2.12vw, 2rem); /*      32px */
+  --font-size-lead: clamp(1.5rem, 2.65vw, 2.5rem); /*       40px */
+  --font-size-cta: clamp(1.75rem, 3.7vw, 3.5rem); /*        56px */
+  --font-size-page-title: clamp(2.5rem, 5.29vw, 5rem); /*   80px */
+  --font-size-hero: clamp(2rem, 6.61vw, 6.25rem); /*       100px */
+  --font-size-hero-lead: clamp(2.375rem, 7.94vw, 7.5rem); /* 120px */
 
-  /* --- Shape ------------------------------------------------------------- */
-  --radius-sm: 4px;
-  --radius-md: 8px;
-  --radius-lg: 16px;
-  --radius-full: 9999px;
+  /* Figma leaves display type on AUTO line-height; body text is set to 135%. */
+  --line-height-display: 1;
+  --line-height-body: 1.35;
 
-  --border-width: 1px;
+  /* --- Space -------------------------------------------------------------
+     The file's Space/SP-* scale. */
+  --space-04: 4px;
+  --space-08: 8px;
+  --space-12: 12px;
+  --space-16: 16px;
+  --space-20: 20px;
+  --space-24: 24px;
+  --space-32: 32px;
+  --space-40: 40px;
+  --space-48: 48px;
+  --space-64: 64px;
 
-  /* --- Elevation --------------------------------------------------------- */
-  --shadow-100: 0 1px 2px rgb(20 23 26 / 0.06);
-  --shadow-200: 0 4px 12px rgb(20 23 26 / 0.08);
+  /* Values the frames use that are NOT on the SP scale. Kept as tokens rather
+     than inlined so the drift stays countable — see the gaps table in README. */
+  --space-off-10: 10px; /*  button padding-block                    */
+  --space-off-36: 36px; /*  sponsor row gap                         */
+  --space-off-80: 80px; /*  indent of the info list and the table   */
+  --space-off-160: 160px; /* space above the sponsor row            */
 
   /* --- Layout ------------------------------------------------------------ */
-  --page-max-width: 1200px;
-  --page-gutter: var(--space-300);
-}
+  --page-width: 1512px; /* the Figma frame width                    */
+  --page-gutter: var(--space-40); /* Main has 40px padding all round */
+  --content-width: 1432px; /* page width minus the gutters          */
+  --measure-facts: 1086px; /* width of a Bullet in Figma            */
+  --measure-table: 976px; /* width of the results Table in Figma    */
 
-/* Dark values live in one place too. Delete this block if the Figma file has
-   no dark variant. */
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    color-scheme: dark;
-
-    --color-bg: #101215;
-    --color-bg-subtle: #171a1e;
-    --color-surface: #1b1f24;
-    --color-border: #2b3239;
-    --color-fg: #f2f4f6;
-    --color-fg-muted: #a3adb8;
-    --color-fg-inverse: #14171a;
-    --color-accent: #6aa0ff;
-    --color-accent-hover: #8ab6ff;
-    --color-focus: #6aa0ff;
-  }
+  --size-control: 60px; /*      nav / toggle button height  */
+  --size-control-lg: 80px; /*   the index CTA button height  */
+  --size-sponsor: 150px; /*     sponsor logo box height     */
+  --hero-ratio: 1512 / 675;
+  --map-ratio: 1432 / 900;
 }

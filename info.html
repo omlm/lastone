@@ -3,8 +3,8 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>lastone__krs — last one standing kristiansand</title>
-    <meta name="description" content="Last one standing i Kristiansand, 12. november 2026. Løp så lenge du klarer i og rundt Jegersberg." />
+    <title>info — lastone__krs</title>
+    <meta name="description" content="Praktisk informasjon om last one standing i Kristiansand." />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -18,19 +18,16 @@
     <link rel="stylesheet" href="css/styles.css" />
   </head>
 
-  <!-- One <header>, one <main>, one <footer>. The page block sits on <body>,
-       so there is no wrapper div; the only div per block is its content-column
-       wrapper. -->
   <body class="page">
     <a class="skip-link" href="#main">Hopp til innhold</a>
 
-    <header class="page__header page__header--overlay">
+    <header class="page__header">
       <nav class="site-nav" aria-label="Hovedmeny">
         <a class="site-nav__brand pill" href="index.html">lastone__krs</a>
 
         <ul class="site-nav__list">
             <li class="site-nav__item">
-              <a class="site-nav__link pill" href="info.html">info</a>
+              <a class="site-nav__link pill pill--current" href="info.html" aria-current="page">info</a>
             </li>
             <li class="site-nav__item">
               <a class="site-nav__link pill" href="loype.html">løype</a>
@@ -43,31 +40,65 @@
     </header>
 
     <main class="page__main" id="main">
-      <!-- Figma: Hero, 1512x675, nav laid over the photo. -->
-      <section class="hero" aria-labelledby="hero-title">
-        <img
-          class="hero__image"
-          src="assets/images/hero.jpg"
-          alt="Løpere samlet ved start i Jegersberg, i svart-hvitt."
-          width="1600"
-          height="715"
-        />
-
-        <h1 class="hero__title" id="hero-title">
-          <span class="hero__line hero__line--name">last one standing</span>
-          <span class="hero__line hero__line--place">kristiansand</span>
-          <time class="hero__line hero__line--date" datetime="2026-11-12"
-            >12 nov 2026</time
-          >
-        </h1>
-      </section>
-
-      <div class="page__body page__body--center">
-        <!-- GAP: this is a Button in Figma but carries no target. Rendered as a
-             static tagline until there is a påmelding URL to point it at. -->
-        <p class="pill pill--accent pill--lead">med deg på</p>
+      <div class="page__body">
+        <!-- The leading "__" is decoration and comes from CSS, so the
+             accessible name stays "info". -->
+        <h1 class="page-title">info</h1>
 
         <p class="intro">Vi gjentar suksessen fra i sommer og ønsker velkommen enda en last one i Kristiansand. Midt i den mørke og kalde tiden på året er det ingen grunn til at løpssesongen skal stoppe opp. Her har man sjansen til å løpe sammen med folk fra ultraløperfamilien, i og omkring idylliske Jegersberg.</p>
+
+        <!-- Figma's "Bullet" rows: a bold term and its text flowing as one
+             paragraph. That is a description list. -->
+        <dl class="fact-list">
+          <div class="fact-list__item">
+            <dt class="fact-list__term">Kleskode</dt>
+            <dd class="fact-list__desc">
+              Vi gjentar suksessen fra i sommer og ønsker velkommen enda en last one i Kristiansand. Midt i den mørke og kalde tiden på året er det ingen grunn til at løpssesongen skal stoppe opp. Her har man sjansen til å løpe sammen med folk fra ultraløperfamilien, i og omkring idylliske Jegersberg.
+            </dd>
+          </div>
+
+          <div class="fact-list__item">
+            <dt class="fact-list__term">Mat og drikke</dt>
+            <dd class="fact-list__desc">
+              Det blir servert snacks/frukt - samt vann, cola og sportsdrikk. I tillegg blir det varmmat hver 7. runde. Lurt å ha med egen favorittnæring/drikke - spesielt hvis du er kresen i magen. Enkel drikkestasjon med vann midtveis i løypa. NB! Ha med egen kopp/flaske.
+            </dd>
+          </div>
+
+          <div class="fact-list__item">
+            <dt class="fact-list__term">Obligatorisk utstyr</dt>
+            <dd class="fact-list__desc">
+              Det er påbudt med hodelykt og refleksvest i de mørke timene.
+            </dd>
+          </div>
+
+          <div class="fact-list__item">
+            <dt class="fact-list__term">Base</dt>
+            <dd class="fact-list__desc">
+              Det er mulighet for å ha base mellom rundene både inne i hall og ute - husk stol - evt madrass for dere som skal løpe lenge 😉
+            </dd>
+          </div>
+
+          <div class="fact-list__item">
+            <dt class="fact-list__term">Overnatting</dt>
+            <dd class="fact-list__desc">
+              Overnatting må du ordne deg på egenhånd for vi har ingen avtale med noen hoteller. Etter løpet er det mulig å legge seg ned i hallen for de som trenger det.
+            </dd>
+          </div>
+
+          <div class="fact-list__item">
+            <dt class="fact-list__term">Premier</dt>
+            <dd class="fact-list__desc">
+              Vinner av dame- og herreklassene får stor, inngravert vandrepokal. Løyperekord og norgesrekord premieres med henholdsvis 5000 og 10000. Det blir også uttrekkspremier fra sponsorer.
+            </dd>
+          </div>
+
+          <div class="fact-list__item">
+            <dt class="fact-list__term">T-skjorte</dt>
+            <dd class="fact-list__desc">
+              Deltagertrøye er inkludert i påmeldingsavgiften til alle som melder seg på før 1_11_2026.
+            </dd>
+          </div>
+        </dl>
       </div>
     </main>
 
