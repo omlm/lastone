@@ -112,8 +112,21 @@
 }
 
 /* ===========================================================================
-   pill — Figma's "Button": a flat block of colour behind a line of text.
-   Used by the nav, the results filter and the index tagline.
+   pill — Figma's "Button" component set (node 1562:1046).
+
+   Two variant axes, six combinations, all of them below:
+
+       Property 1  Default | Primary | Invert     -> the modifier
+       Property 2  Default | Hover               -> :hover
+
+   | variant | resting                  | hover                     |
+   |---------|--------------------------|---------------------------|
+   | Default | white bg, black text     | mint #82f682, black text  |
+   | Invert  | black bg, white text     | white bg, black text      |
+   | Primary | pink bg, black text, 56px| black bg, pink text       |
+
+   Figma swaps the variants with no transition, so these do too. Add an easing
+   here if you want one — it is not in the design.
    =========================================================================== */
 
 .pill {
@@ -130,22 +143,53 @@
   white-space: nowrap;
 }
 
-.pill--current {
+.pill:hover {
+  background: var(--color-surface-hover);
+  color: var(--color-text-default);
+}
+
+.pill--invert {
   background: var(--color-surface-invert);
   color: var(--color-text-invert);
 }
 
-.pill--accent {
-  background: var(--color-surface-accent);
+.pill--invert:hover {
+  background: var(--color-surface-white);
+  color: var(--color-text-default);
 }
 
-/* Figma fixes this button at 80px. Its own line box is taller than that once
-   padding is added, so the block padding comes off and min-height sets it. */
-.pill--lead {
+.pill--invert:focus-visible {
+  outline-color: var(--color-surface-invert);
+}
+
+/* Primary carries its own size: Figma fixes it at 80px, and its line box is
+   taller than that once padding is added, so the block padding comes off and
+   min-height sets the height. */
+.pill--primary {
   min-height: var(--size-control-lg);
   padding-block: 0;
   padding-inline: var(--space-32);
+  background: var(--color-surface-accent);
+  color: var(--color-text-default);
   font-size: var(--font-size-cta);
+}
+
+.pill--primary:hover {
+  background: var(--color-surface-invert);
+  color: var(--color-surface-accent);
+}
+
+/* The index tagline is a Primary button in Figma but has no target yet (see
+   the gaps table), so it is not interactive and must not answer to the
+   pointer. Re-asserts the resting state; drop this modifier the day the
+   påmelding URL exists and the hover comes back on its own. */
+.pill--static {
+  cursor: default;
+}
+
+.pill--static:hover {
+  background: var(--color-surface-accent);
+  color: var(--color-text-default);
 }
 
 /* ===========================================================================
@@ -339,15 +383,36 @@
   cursor: pointer;
 }
 
-/* State, not descendant styling: both sides are single classes. */
+/* State, not descendant styling: both sides are single classes. A checked
+   label is the Invert variant of the button, hover included. */
 .filter__input:checked + .filter__label {
   background: var(--color-surface-invert);
   color: var(--color-text-invert);
 }
 
+.filter__input:checked + .filter__label:hover {
+  background: var(--color-surface-white);
+  color: var(--color-text-default);
+}
+
 .filter__input:focus-visible + .filter__label {
   outline: 3px solid var(--color-surface-accent);
   outline-offset: 2px;
+}
+
+/* Filtering, still with no JavaScript. Same category as the rule above: a
+   state on one named class deciding the appearance of another named class.
+   Classes only — no ids, no tag selectors. "Alle" needs no rule; it is the
+   absence of both.
+
+   The class each runner is filtered into is INFERRED FROM THEIR NAME, because
+   the results data has no class field. See the gaps table. */
+.results:has(.filter__input--women:checked) .results-table__row--men {
+  display: none;
+}
+
+.results:has(.filter__input--men:checked) .results-table__row--women {
+  display: none;
 }
 
 /* ===========================================================================
@@ -383,6 +448,12 @@
 
 .results-table__row {
   border-block-end: 1px solid var(--color-stroke-default);
+}
+
+/* Figma's "Row" set (node 1566:2430) carries an ON_HOVER reaction. Only the
+   data rows have it — the header row is a separate modifier and stays put. */
+.results-table__row--data:hover {
+  background: var(--color-surface-row-hover);
 }
 
 .results-table__heading {

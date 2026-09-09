@@ -20,6 +20,11 @@
   --color-surface-invert: #000000;
   --color-surface-accent: #ff67cf;
 
+  /* Hover surfaces, from the Button and Row component sets. The mint is the
+     only place a fourth colour enters the design. */
+  --color-surface-hover: #82f682; /*     Button / Default  -> Hover */
+  --color-surface-row-hover: #fff0fa; /* Row    / Default  -> Hover */
+
   --color-text-default: #000000;
   --color-text-invert: #ffffff;
 

@@ -63,9 +63,12 @@ fieldset {
   padding: 0;
 }
 
-/* One focus ring for the whole site, and never removed. */
+/* One focus ring for the whole site, and never removed. Black rather than the
+   accent: the ring has to read against white, the mint hover, the pink Primary
+   button and the black Invert button, and the offset puts it on the page
+   ground in every one of those cases. */
 :focus-visible {
-  outline: 3px solid var(--color-surface-accent);
+  outline: 3px solid var(--color-text-default);
   outline-offset: 2px;
 }
 

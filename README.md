@@ -51,6 +51,41 @@ family=Inter:opsz,wght@14..32,500;14..32,900
 and leave `font-optical-sizing` at its default `auto`. That reproduces Figma to
 within a pixel. Do not "simplify" the font URL back to the static form.
 
+## Components
+
+`css/styles.css` implements Figma's component sets, keeping their variant
+names as BEM modifiers so the two can be read side by side.
+
+### Button — `.pill` (node `1562:1046`)
+
+Two variant axes: **Property 1** (Default / Primary / Invert) becomes the
+modifier, **Property 2** (Default / Hover) becomes `:hover`.
+
+| Figma variant | class | resting | hover |
+|---|---|---|---|
+| Default | `.pill` | white bg, black text | mint `#82f682`, black text |
+| Invert | `.pill--invert` | black bg, white text | white bg, black text |
+| Primary | `.pill--primary` | pink bg, black text, 56px | black bg, pink text |
+
+Figma swaps variants with no transition, so the CSS does not animate either.
+`.pill--static` is the one addition: it holds a Primary button at its resting
+state for the index tagline, which has no target to be interactive for.
+
+Everything that looks like a button is this one block, mixed onto its slot —
+`site-nav__brand`, `site-nav__link`, `filter__label`.
+
+### Row — `.results-table__row` (node `1566:2430`)
+
+Carries an `ON_HOVER` reaction to `#fff0fa`. Only the data rows
+(`--data`) take it; the header row (`--head`) does not.
+
+### Toggle and Nav (nodes `1566:2386`, `1562:1206`)
+
+Both are variant sets over *which item is selected*, with no states of their
+own — the buttons inside carry the states. So the nav is one `.pill--invert`
+plus `aria-current="page"`, and the toggle is three radios whose checked label
+is the Invert variant.
+
 ## CSS: classic BEM
 
 Three shapes, and nothing else:
@@ -73,9 +108,15 @@ Three shapes, and nothing else:
 `base.css` is the exception and the reason it is its own file: it styles raw
 elements so unclassed markup behaves, and it is the only file allowed to.
 
-There is exactly **one** deliberate departure, marked at the site:
-`.filter__input:checked + .filter__label`. Both sides are single classes; the
-combinator carries a state that cannot be expressed without JavaScript.
+There are **two** deliberate departures, both marked at the site and both of
+the same kind — a state on one named class deciding the appearance of another,
+which cannot be expressed without JavaScript. Neither uses an id or a tag
+selector, so the rule that actually matters still holds:
+
+```css
+.filter__input:checked + .filter__label            /* the toggle's own state */
+.results:has(.filter__input--women:checked) .results-table__row--men
+```
 
 ## HTML: real markup
 
@@ -102,8 +143,9 @@ Figma counterpart. When a frame needs a value that has no token, add the token
 first — a hardcoded hex in `styles.css` is how a site and its Figma file drift
 apart without anyone noticing.
 
-The whole design is three colours: `#000000`, `#ffffff` and the accent
-`#ff67cf`. It is light-only; the Figma collection has a Light mode and nothing
+The design is `#000000`, `#ffffff` and the accent `#ff67cf`, plus two colours
+that appear only on hover: `#82f682` (Button, Default variant) and `#fff0fa`
+(Row). It is light-only; the Figma collection has a Light mode and nothing
 else, so there is no `prefers-color-scheme` block.
 
 ## Gaps
@@ -115,8 +157,9 @@ one is also commented at the site in the markup.
 | # | Gap | Where | What it needs |
 |---|---|---|---|
 | 1 | The **GPX file does not exist**. The download link is wired to `assets/lastone-krs-course.gpx`, which is not in the repo — the link 404s today. | `loype.html` | Drop the course export in at that path. |
-| 2 | The **results filter does not filter**. Alle / Damer / Herrer changes the selected pill, but the results data has no class or gender field to select on. | `resultater.html` | A class field in the data, then a page per class or a few lines of JS. |
-| 3 | The index **"med deg på" is a Button in Figma with no target**. Rendered as a static tagline, not a link. | `index.html` | A påmelding URL. |
+| 2 | **The class each runner is filtered into is inferred from their name.** The results data has no class field, so Damer / Herrer is decided by given-name convention (and, for one Lithuanian name, by the surname's masculine form). It is a heuristic: it will be wrong for anyone whose name does not follow the convention, and nobody chose it for themselves. 18 are listed as Damer, 31 as Herrer. | `resultater.html` | A real class field from the race registration, which is the only authority on this. |
+| 2b | Under a filter the **rank column keeps the overall placement**, so the numbers have gaps (1, 3, 4, 7…). Whether a class view should renumber from 1 is not specified in the design. | `resultater.html` | A decision, then either renumbering in the data or per-class pages. |
+| 3 | The index **"med deg på" is a Primary Button in Figma with no target**. Rendered as a static tagline via `.pill--static`, so the Primary hover — black bg, pink text — is implemented but has no live instance on the site. | `index.html` | A påmelding URL. Drop `.pill--static`, make it an `<a>`, and the hover comes back on its own. |
 | 4 | **No mobile design exists.** The two 402px `small` frames on the Figma page still contain 1512px children, so they are explorations, not a spec. Everything under the 768px breakpoint is a decision made in code. | `css/styles.css` | Small-screen frames, if the layout below 768px matters. |
 | 5 | **Typo corrected, not reproduced.** The Premier entry reads "Det b lir også uttrekkspremier" in Figma; the page says "Det blir". | `info.html` | Fix it in Figma so the two agree. |
 | 6 | The file's **variable collection is unused**. "Collection 1" is built around a purple accent (`#4C3267`); these four frames use flat black, white and `#ff67cf` with no variables bound. | `css/tokens.css` | Decide whether the pages should adopt the collection or the collection should be replaced. |
