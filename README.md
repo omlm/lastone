@@ -14,6 +14,9 @@ frames `Index`, `Info`, `Course` and `Results`.
 | løype | `loype.html` | `1562:1294` |
 | resultater | `resultater.html` | `1562:1570` |
 
+Live at **<https://omlm.github.io/lastone/>** — GitHub Pages serves `main`
+verbatim (`.nojekyll`), so a push to `main` is the deploy.
+
 ## Run it
 
 Any static server will do:
